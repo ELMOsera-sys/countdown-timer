@@ -8,7 +8,7 @@ function Animation({name, time}){
       setAnimated(!animated)
     }, 1000);
     return () => clearInterval(interval);
-  },[time])
+  },[animated])
 
   return (
     <div className='flex flex-col items-center gap-2'>
