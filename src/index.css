@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+@theme {
+    /* Fonts */
+    --font-red-hat-text: "Red Hat Text", sans-serif;
+
+    /* Primary */
+    --color-lavender-300: hsl(237, 18%, 59%);
+    --color-pink-100: hsl(345, 95%, 68%);
+
+    /* Neutral */
+    --color-white: hsl(0, 0%, 100%);
+    --color-slate-700: hsl(236, 21%, 26%);
+    --color-slate-800: hsl(235, 16%, 14%);
+    --color-slate-900: hsl(234, 17%, 12%);
+}
