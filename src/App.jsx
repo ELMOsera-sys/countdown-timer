@@ -34,19 +34,22 @@ function App() {
     Minutes: 55,
     Seconds: 41});
 
-    useEffect(
-      ()=>{
-        const interval = setInterval(() => {
-          setTime({
-            Days: time.Hours===0? (time.Days===0?"hey stop waiting":time.Hours-1):time.Days,
-            Hours: time.Minutes===0? (time.Hours===0?23:time.Hours-1):time.Hours,
-            Minutes: time.Seconds===0? (time.Minutes===0?59:time.Minutes-1):time.Minutes,
-            Seconds: time.Seconds===0? 59:time.Seconds-1})
-        }, 1000);
+    useEffect(() => {
+  const interval = setInterval(() => {
+    setTime(prev => {
+      const { Days, Hours, Minutes, Seconds } = prev;
 
-        return () => clearInterval(interval);
-      },[time]
-    )
+      if (Seconds > 0) return { ...prev, Seconds: Seconds - 1 };
+      if (Minutes > 0) return { ...prev, Minutes: Minutes - 1, Seconds: 59 };
+      if (Hours > 0)   return { ...prev, Hours: Hours - 1, Minutes: 59, Seconds: 59 };
+      if (Days > 0)    return { Days: Days - 1, Hours: 23, Minutes: 59, Seconds: 59 };
+
+      return prev; 
+    });
+  }, 1000);
+
+  return () => clearInterval(interval);
+}, []);
 
   return (
     <main className='flex flex-col items-center justify-center gap-10 pb-50'>
