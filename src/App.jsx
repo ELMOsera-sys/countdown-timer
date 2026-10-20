@@ -1,22 +1,15 @@
 import { useState,useEffect } from 'react'
 
-function Animation({name, time}){
-  const [animated, setAnimated]=useState(false);
+function Animation({name, time, animated}){
 
-  useEffect(()=>{
-    const interval = setInterval(() => {
-      setAnimated(!animated)
-    }, 1000);
-    return () => clearInterval(interval);
-  },[animated])
 
   return (
     <div className='flex flex-col items-center gap-2'>
           <div className='flex flex-col items-center justify-center text-6xl md:text-8xl p-2
           text-pink-100 relative'>
-            <span className={`absolute h-[48%] w-full top-0 z-[-1] 
-            rounded-b-lg animate__animated
-             ${animated?"animate__slideInDown bg-slate-700":"bg-white"}`}
+            <span key={time} className={`absolute h-[48%] w-full top-0 z-[-1] bg-slate-700
+            rounded-b-lg animate__animated animate__slideInDown
+             `}
             ></span>
 
             <span className='absolute h-[48%] w-full bottom-0 z-[-1] bg-slate-700
@@ -34,18 +27,22 @@ function App() {
     Minutes: 55,
     Seconds: 41});
 
+  const launchAt = Date.now() + 14 * 86_400_000;
+
+
+   function timeLeft() {
+      const s = Math.max(0, Math.floor((launchAt - Date.now()) / 1000));
+     return {
+    Days: Math.floor(s / 86400),
+    Hours: Math.floor(s / 3600) % 24,
+    Minutes: Math.floor(s / 60) % 60,
+    Seconds: s % 60,
+  };
+}
+
     useEffect(() => {
   const interval = setInterval(() => {
-    setTime(prev => {
-      const { Days, Hours, Minutes, Seconds } = prev;
-
-      if (Seconds > 0) return { ...prev, Seconds: Seconds - 1 };
-      if (Minutes > 0) return { ...prev, Minutes: Minutes - 1, Seconds: 59 };
-      if (Hours > 0)   return { ...prev, Hours: Hours - 1, Minutes: 59, Seconds: 59 };
-      if (Days > 0)    return { Days: Days - 1, Hours: 23, Minutes: 59, Seconds: 59 };
-
-      return prev; 
-    });
+    setTime(timeLeft())
   }, 1000);
 
   return () => clearInterval(interval);
