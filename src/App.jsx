@@ -20,14 +20,15 @@ function Animation({name, time, animated}){
         </div>
   )
 }
+
+const launchAt = Date.now() + 14 * 86_400_000;
+
 function App() {
   const [time, setTime] = useState({
     Days: 8,
     Hours: 23,
     Minutes: 55,
-    Seconds: 41});
-
-  const launchAt = Date.now() + 14 * 86_400_000;
+    Seconds: 41});//** I let it like that for the esthetic of the project
 
 
    function timeLeft() {
@@ -52,10 +53,9 @@ function App() {
     <main className='flex flex-col items-center justify-center gap-10 pb-50'>
       <h1 className='text-3xl md:text-5xl text-slate-100 px-4'>WE'RE LAUNCHING SOON</h1>
       <div className='flex gap-6 md:gap-10'>
-        {time.Days===0 ? time.Days: (
+        {
           Object.entries(time).map(([name, val]) => (
-          <Animation key={name} name={name} time={val} />
-        ))
+          <Animation key={name} name={name} time={val} /> )
         )}
       </div>
       
